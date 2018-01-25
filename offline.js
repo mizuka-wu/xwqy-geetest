@@ -1,5 +1,3 @@
-require('./geetest.js')
-req
 Geetest.define("Offline", ["Data", "Slide"], function (a, b) {
     var c = {};
     return c.getX = function (a) {
