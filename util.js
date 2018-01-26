@@ -26,17 +26,21 @@ function getToken() {
 
 
 // 获取企业数据
-function getData(pripid = 'nOGEyqt537WHxuhPw2DcGLu8WNd6EXRbJrPggyksWgfZEmwMOisM8h.QS8mPyE5OqCDOsoLSeozjmi.fl5PM3V.9oGG.Qis4') {
-    return axios(
-        {
-            method: 'POST',
-            url: 'http://xwqy.gsxt.gov.cn/mirco/micro_detail',
-            headers: {
-                'content-type': 'application/x-www-form-urlencoded'
-            },
-            data: 'organId=100000&channelId=99&pripid=' + pripid
-        }
-    )
+function getData(pripid) {
+    if (pripid) {
+        return axios(
+            {
+                method: 'POST',
+                url: 'http://xwqy.gsxt.gov.cn/mirco/micro_detail',
+                headers: {
+                    'content-type': 'application/x-www-form-urlencoded'
+                },
+                data: 'organId=100000&channelId=99&pripid=' + pripid
+            }
+        )
+    } else {
+        return Promise.reject()
+    }
 }
 
 // 计算加密
@@ -88,6 +92,7 @@ function getPripid({challenge, validate}, keyword = '上海聚豫德信息科技
         .then(result => result.replace('var objTbody = ', ''))
         .then(result => result.replace(';', ''))
         .then(result => JSON.parse(result)[0].entid)
+        .catch(e => e)
 }
 
 module.exports = function (keyword) {
@@ -110,6 +115,6 @@ module.exports = function (keyword) {
             })
             return tds
         })
-        .catch(e => e)
+        .catch(e => '')
 }
 
